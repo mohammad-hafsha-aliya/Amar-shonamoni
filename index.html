@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffb3d9 100%);
+            color: #d63384;
+            padding: 50px;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+        }
+        .buttons-container {
+            position: relative;
+            height: 200px;
+            margin: 50px auto;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        #yesBtn {
+            background-color: #ff69b4;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+        #yesBtn:hover {
+            background-color: #ff1493;
+        }
+        #noBtn {
+            background-color: #ccc;
+            color: black;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        #message {
+            font-size: 2.5em;
+            margin-top: 20px;
+            font-weight: bold;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .heart {
+            font-size: 3em;
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Hey Shoaib! 💕</h1>
+    <h1>Will You Be My Valentine?</h1>
+    <p>Click your answer below!</p>
+    
+    <div class="buttons-container">
+        <button id="yesBtn">Yes! 💖</button>
+        <button id="noBtn">No</button>
+    </div>
+    
+    <div id="message"></div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        let yesBtnSize = 1;
+
+        yesBtn.addEventListener('click', () => {
+            message.innerHTML = "Yay! Happy Valentine's Day, Shoaib! 🎉<br><span class='heart'>❤️</span>";
+            message.style.color = "#ff69b4";
+            noBtn.style.display = 'none';
+            
+            // Confetti effect
+            for(let i = 0; i < 50; i++) {
+                createHeart();
+            }
+        });
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('click', moveButton);
+
+        function moveButton() {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 100;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 100;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Make Yes button bigger
+            yesBtnSize += 0.1;
+            yesBtn.style.transform = `scale(${yesBtnSize})`;
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = '-50px';
+            heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            heart.style.opacity = '0.8';
+            heart.style.pointerEvents = 'none';
+            document.body.appendChild(heart);
+            
+            let pos = -50;
+            const fall = setInterval(() => {
+                if (pos > window.innerHeight) {
+                    clearInterval(fall);
+                    heart.remove();
+                } else {
+                    pos += 3;
+                    heart.style.top = pos + 'px';
+                }
+            }, 20);
+        }
+    </script>
+</body>
+</html>
